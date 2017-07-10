@@ -1,0 +1,20 @@
+{
+    "road-condition": "normal", 
+    "start_frame": 63274, 
+    "large-truck": 1, 
+    "vehicle-type": "car,lorry,lorry-8,tanker", 
+    "weather": "sunny", 
+    "traffic": "heavy", 
+    "clip_dir": "/media/work/CodeSpace/TencentWork/track_labeling/sloth_autolab/examples/10", 
+    "others": "", 
+    "illumination": "normal", 
+    "ID": 10, 
+    "num_frame": 400, 
+    "img_dir": "camera_6mm,camera_25mm", 
+    "end_frame": 63673, 
+    "location": "highway", 
+    "behavior": "normal", 
+    "time": "day", 
+    "seq_name": "10-a", 
+    "img_format": "frame%05d.jpg"
+}
