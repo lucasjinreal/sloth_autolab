@@ -6,6 +6,7 @@ from sloth.core.exceptions import \
     ImproperlyConfigured, NotImplementedException, InvalidArgumentException
 from sloth.core.utils import import_callable
 import logging
+
 LOG = logging.getLogger(__name__)
 
 try:
@@ -23,13 +24,17 @@ except ImportError:
 try:
     import okapy
     import okapy.videoio as okv
+
     _use_pil = False
 except ImportError:
     try:
         from PIL import Image
+
         _use_pil = True
     except:
         raise RuntimeError("Could neither find PIL nor okapy.  Sloth needs one of them for loading images.")
+import msgpack
+from sys import platform
 
 
 class AnnotationContainerFactory:
@@ -85,7 +90,8 @@ class AnnotationContainer:
         return self._filename
 
     def clear(self):
-        self._annotations = []  # TODO Why isn't this used? Annotations are passed as parameters instead. Let's have encapsulation.
+        # TODO Why isn't this used? Annotations are passed as parameters instead. Let's have encapsulation.
+        self._annotations = []
         self._filename = None
         self._video_cache = {}
 
@@ -100,6 +106,7 @@ class AnnotationContainer:
         ann = self.parseFromFile(filename)
         diff = time.time() - start
         LOG.info("Loaded annotations from %s in %.2fs" % (filename, diff))
+        print('=== Loaded the fucking annotations from %s in %.2fs' % (filename, diff))
         return ann
 
     def parseFromFile(self, filename):
@@ -301,11 +308,18 @@ class JsonContainer(AnnotationContainer):
     """
 
     def parseFromFile(self, fname):
-        """
-        Overwritten to read JSON files.
-        """
         f = open(fname, "r")
-        return json.load(f)
+        f = json.load(f)
+        # make sure that windows path be save load
+        if platform == 'linux' or platform == 'darwin':
+            print('=== You are under Linux system or masOS.')
+            for ann_per_frame in f:
+                ann_per_frame['filename'] = ann_per_frame['filename'].replace('\\', '/')
+        elif platform.lower().startswith('win'):
+            print('=== You are under Windows system.')
+            for ann_per_frame in f:
+                ann_per_frame['filename'] = ann_per_frame['filename'].replace('/', '\\')
+        return f
 
     def serializeToFile(self, fname, annotations):
         """
@@ -402,9 +416,9 @@ class FeretContainer(AnnotationContainer):
                 'filename': s[0] + ".bmp",
                 'class': 'image',
                 'annotations': [
-                    {'class': 'left_eye',  'x': int(s[1]), 'y': int(s[2])},
+                    {'class': 'left_eye', 'x': int(s[1]), 'y': int(s[2])},
                     {'class': 'right_eye', 'x': int(s[3]), 'y': int(s[4])},
-                    {'class': 'mouth',     'x': int(s[5]), 'y': int(s[6])}
+                    {'class': 'mouth', 'x': int(s[5]), 'y': int(s[6])}
                 ]
             }
             annotations.append(fileitem)

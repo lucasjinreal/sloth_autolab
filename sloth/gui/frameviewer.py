@@ -101,7 +101,8 @@ class GraphicsView(QGraphicsView):
         self.setScaleAbsolute(self.getScale() * factor)
 
     def wheelEvent(self, event):
-        factor = 1.41 ** (event.pixelData() / 240.0)
+        assert isinstance(event, QWheelEvent), 'event is not QWheel Event.'
+        factor = 1.41 ** (float(event.pixelDelta().x()) / 240.0)
         self.setScaleRelative(factor)
 
     def focusInEvent(self, event):

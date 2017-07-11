@@ -257,7 +257,13 @@ class LabelTool(QObject):
         fname = str(fname)
         seqinfo = json.load(open(fname, 'r'))
 
-        anno_dir = 'annotations-' + os.path.basename(os.path.dirname(fname))
+        seq_id = seqinfo['ID']
+        print('=== You are solving from ID: {}'.format(seq_id))
+        anno_dir = 'annotations-' + str(seq_id)
+        print('=== Load annotations from dir: '.format(anno_dir))
+        if not os.path.exists(anno_dir):
+            print('=== This dir seems not exist. Let go fucking exit...')
+            exit(0)
         anno_dir = os.path.join(os.path.dirname(fname), anno_dir)
         if not os.path.isdir(anno_dir):
             os.mkdir(anno_dir)

@@ -137,20 +137,31 @@ CONTAINERS = (
 PLUGINS = (
 )
 
+# 4 camera config
 VIEWS = (
     {
         'folder': 'camera_6mm'
     },
-    # {
-    #     'folder': 'camera_12_5mm'
-    # },
+    {
+        'folder': 'camera_12_5mm'
+    },
     {
         'folder': 'camera_25mm'
     },
-    # {
-    #     'folder': 'camera_50mm'
-    # }
+    {
+        'folder': 'camera_50mm'
+    }
 )
+
+# 2 camera config
+# VIEWS = (
+#     {
+#         'folder': 'camera_6mm'
+#     },
+#     {
+#         'folder': 'camera_25mm'
+#     },
+# )
 
 GLOBALS = {
     'labeltool': None

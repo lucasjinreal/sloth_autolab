@@ -44,7 +44,7 @@ class Calibration:
                 'scale': 50.0
             }
         else:
-            raise ValueError('only support 2 or 4 camera of now')
+            raise ValueError('only support 2 or 4 camera for now')
 
     def getConvertedAnno(self, ann, idx_1, idx_2):
         ratio = self._anchors[idx_2]['scale'] / self._anchors[idx_1]['scale']
